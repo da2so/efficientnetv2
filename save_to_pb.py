@@ -42,12 +42,7 @@ def main(_) -> None:
     input = tf.keras.Input(shape=(224,224,3), batch_size=1) 
 
     keras_model = tf.keras.Model(inputs=[input], outputs=tf.nn.softmax(model.call(input, training=False))) #keras model
-    keras_model.save('./efficientnetv2-b0_saved_model', save_format='tf') #save to keras model
-    m = tf.function(lambda x: keras_model(x))  # full model
-    m = m.get_concrete_function(tf.TensorSpec(keras_model.input.shape, keras_model.input.dtype))
-    frozen_func = convert_variables_to_constants_v2(m)
-    frozen_func.graph.as_graph_def()
-    tf.io.write_graph(graph_or_graph_def=frozen_func.graph, logdir=str('./'), name='./efficientnetv2-b0.pb', as_text=False) #save to saved model
+    keras_model.save('./efficientnetv2-b0_saved_model', save_format='tf') #save to tf saved model
 
 
 if __name__ == '__main__':
